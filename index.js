@@ -1,6 +1,6 @@
 const { fileURLToPath } = require('url')
 const { dirname, join, resolve } = require('path')
-const { readFile, pathExists } = require('fs-extra')
+const { readFile, stat } = require('fs/promises')
 
 function vitePluginBlueprint ({ prefix, root, files }) {
   const roots = {
@@ -57,4 +57,12 @@ function urlDirname (url) {
 
 function urlJoin (url, ...str) {
   return join(urlDirname(url), ...str)
+}
+
+function pathExists(filePath) {
+  try {
+    return stat(filePath).isDirectory();
+  } catch (err) {
+    return false;
+  }
 }
